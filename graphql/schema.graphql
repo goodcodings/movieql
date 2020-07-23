@@ -35,3 +35,21 @@ type Mutation{
     addMovie(name:String!,score:Int!): Movie!
     deleteMovie(id:Int):Boolean!
 }
+
+
+# movieWithApi
+type MovieWithApi{
+    id:Int!,
+    url:String!,
+    year:Int!,
+    rating:Float!,
+    gender:[String]
+}
+
+type Query{
+    getMoviesThrowAPI(limit:Int,minimum_rating:Float):[MovieWithApi]
+}
+type Mutation{
+    insertMovie(name:String!,score:Float!): Movie!
+}
+

@@ -96,3 +96,37 @@ export const getMovies =() =>moviesList;
      moviesList.push(newMovie)
      return newMovie;
  }
+
+ 
+ // wrapping a Rest API with GraphQL Section
+ 
+ import fetch from 'node-fetch'
+ const API_URL = "https://yts.am/api/v2/list_movies.json"
+ 
+
+ export const getMoviesThrowAPI= (limit,minimum_rating) =>{
+     let REQUEST_URL = API_URL;
+     let paramsURL = [];
+     if(limit&&limit > 0){
+        paramsURL.push(
+            `limit=${limit}`
+        )
+     }
+
+     if(minimum_rating&&  (Number(minimum_rating) === minimum_rating && minimum_rating % 1 !== 0) ){
+        paramsURL.push(
+            `minimum_rating=${minimum_rating}`
+        )
+     }
+     
+     paramsURL= paramsURL.length > 1 ? paramsURL.join("&&") : paramsURL.join("");
+
+     console.log(`params URL -> ${paramsURL}`);
+
+     if(paramsURL.length > 0 ){
+         REQUEST_URL = [REQUEST_URL,paramsURL].join("?");
+     }
+
+     return fetch(REQUEST_URL).then(res => res.json()).then(json=> json.data.movies);
+ }
+ 
